@@ -1,3 +1,5 @@
+const API_BASE = 'https://your-app.onrender.com'; 
+
 // ---------- Option lists (match the backend's Literal / dataset values) ----------
 const COUNTRIES = ['Afghanistan','Albania','Andorra','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Belarus','Belgium','Bhutan','Bolivia','Bosnia','Brazil','Bulgaria','Canada','Chile','China','Colombia','Costa Rica','Croatia','Cyprus','Czech Republic','Denmark','Ecuador','Egypt','Estonia','Finland','France','Georgia','Germany','Ghana','Greece','Hong Kong','Hungary','Iceland','India','Indonesia','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kosovo','Kuwait','Kyrgyzstan','Latvia','Lebanon','Liechtenstein','Lithuania','Luxembourg','Malaysia','Maldives','Malta','Mexico','Moldova','Monaco','Montenegro','Morocco','Nepal','Netherlands','New Zealand','Nigeria','North Macedonia','Norway','Oman','Pakistan','Panama','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','San Marino','Serbia','Singapore','Slovakia','Slovenia','South Africa','South Korea','Spain','Sri Lanka','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Thailand','Trinidad','Turkey','UAE','UK','USA','Ukraine','Uruguay','Uzbekistan','Vatican City','Venezuela','Vietnam','Yemen','Other'];
 const PLATFORMS = ['Instagram','Facebook','TikTok','YouTube','WhatsApp','Snapchat','Twitter','LinkedIn','WeChat','LINE','KakaoTalk','VKontakte'];
@@ -54,8 +56,7 @@ form.addEventListener('submit', async e => {
 
   btn.disabled = true; btn.classList.add('loading');
   try {
-    const base = $('apiUrl').value.trim().replace(/\/+$/, '');
-    const res = await fetch(`${base}/predict`, {
+    const res = await fetch(`${API_BASE}/predict`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
