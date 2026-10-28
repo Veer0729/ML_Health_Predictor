@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MindScope · Student Mental Health Predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<header class="hero">
+  <div class="brand"><span class="dot"></span>MindScope</div>
+  <h1>How is social media <em>really</em> affecting your well-being?</h1>
+  <p class="sub">Tell us about your daily habits and our machine-learning model will estimate your mental health score, trained on 5,000 student responses.</p>
+</header>
+
+<main class="layout">
+  <form id="form" class="card form" novalidate>
+    <fieldset>
+      <legend><i>01</i> About you</legend>
+      <div class="grid">
+        <label class="field">Age
+          <input type="number" id="age" min="10" max="100" value="21" required />
+        </label>
+        <label class="field">Gender
+          <div class="seg" id="gender">
+            <input type="radio" name="gender" id="g1" value="Male" checked /><label for="g1">Male</label>
+            <input type="radio" name="gender" id="g2" value="Female" /><label for="g2">Female</label>
+          </div>
+        </label>
+        <label class="field">Country
+          <select id="country"></select>
+        </label>
+        <label class="field">Academic level
+          <select id="academic_level">
+            <option>High School</option>
+            <option selected>Undergraduate</option>
+            <option>Graduate</option>
+          </select>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><i>02</i> Social media</legend>
+      <div class="grid">
+        <label class="field">Most used platform
+          <select id="most_used_platform"></select>
+        </label>
+        <label class="field">Main purpose
+          <select id="purpose_of_use">
+            <option>Networking</option><option>Education</option>
+            <option selected>Entertainment</option><option>News</option>
+          </select>
+        </label>
+      </div>
+      <div class="sliders">
+        <div class="slider"><div class="row"><span>Daily usage</span><b><output id="o_usage">4.0</output> h</b></div>
+          <input type="range" id="avg_daily_usage_hours" min="0" max="12" step="0.1" value="4" /></div>
+        <div class="slider"><div class="row"><span>Phone unlocks per day</span><b><output id="o_unlocks">120</output></b></div>
+          <input type="range" id="daily_unlocks" min="0" max="300" step="1" value="120" /></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><i>03</i> Lifestyle</legend>
+      <div class="sliders">
+        <div class="slider"><div class="row"><span>Study hours</span><b><output id="o_study">4.0</output> h</b></div>
+          <input type="range" id="study_hours" min="0" max="16" step="0.1" value="4" /></div>
+        <div class="slider"><div class="row"><span>Physical activity</span><b><output id="o_activity">1.5</output> h</b></div>
+          <input type="range" id="physical_activity_hours" min="0" max="8" step="0.1" value="1.5" /></div>
+        <div class="slider"><div class="row"><span>Sleep per night</span><b><output id="o_sleep">7.0</output> h</b></div>
+          <input type="range" id="sleep_hours_per_night" min="0" max="14" step="0.1" value="7" /></div>
+      </div>
+      <div class="field">Current stress level
+        <div class="seg seg4" id="stress">
+          <input type="radio" name="stress" id="s1" value="Low" /><label for="s1">Low</label>
+          <input type="radio" name="stress" id="s2" value="Medium" checked /><label for="s2">Medium</label>
+          <input type="radio" name="stress" id="s3" value="High" /><label for="s3">High</label>
+          <input type="radio" name="stress" id="s4" value="Very High" /><label for="s4">Very High</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <button type="submit" id="submit" class="btn"><span class="label">Predict my score</span><span class="spinner"></span></button>
+    <p class="error" id="error" role="alert" hidden></p>
+  </form>
+
+  <aside class="card result" id="result" aria-live="polite">
+    <div class="placeholder" id="placeholder">
+      <div class="orb"></div>
+      <h2>Your result appears here</h2>
+      <p>Fill in the form and hit <em>Predict</em>. Nothing is stored — it's just a quick estimate.</p>
+    </div>
+
+    <div class="output" id="output" hidden>
+      <p class="eyebrow">Predicted mental health score</p>
+      <div class="gauge">
+        <svg viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7c5cff" /><stop offset="100%" stop-color="#2ee6c5" />
+            </linearGradient>
+          </defs>
+          <circle class="track" cx="100" cy="100" r="84" />
+          <circle class="bar" id="bar" cx="100" cy="100" r="84" />
+        </svg>
+        <div class="gauge-text"><span id="score">0.0</span><small>out of 10</small></div>
+      </div>
+      <div class="badge" id="badge">—</div>
+      <p class="msg" id="msg"></p>
+      <ul class="tips" id="tips"></ul>
+      <p class="disclaimer">This is a statistical estimate, not a medical diagnosis. If you're struggling, please talk to a counsellor or someone you trust.</p>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <label class="api">Backend URL
+    <input type="text" id="apiUrl" value="http://127.0.0.1:8000" spellcheck="false" />
+  </label>
+  <span>Built with FastAPI + scikit-learn</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
